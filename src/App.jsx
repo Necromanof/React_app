@@ -11,7 +11,7 @@ function App() {
     <>
       <h1>Bienvenue sur mon site</h1>
       <ul>
-        <Link screen = "Demarrer" params={{ id : 'home'}}>Démarrer</Link>
+        
       </ul>
     </>
   )
