@@ -6,6 +6,7 @@ import About from "./components/about.jsx"
 import Begin from "./components/begin.jsx"
 import Add from './components/add.jsx'
 import List from './components/componentList.jsx'
+import ComponentList from './components/componentList.jsx';
 
 
 function App() {
@@ -23,6 +24,9 @@ function App() {
       break;
     case "/Add":
       component = <Add />
+      break;
+    case "/List":
+      component = <List />
       break;
   }
 
@@ -51,7 +55,9 @@ function App() {
       <NavBar />
       <div className="container">
       {component}
-    </div>
+      <Add onAddComponent={addComponent}/>
+      <ComponentList components={components} onUpdateComponent={updateComponent} onDeleteComponent={deleteComponent} />
+      </div>
 </>
   );
 }
