@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function ComponentList({ components = [], onUpdateComponent, onDeleteComponent }) {
+function ComponentList({ components = [], onUpdateComponent, onDeleteComponent, onAddComponent }) {
   const [editIndex, setEditIndex] = useState(null);
   const [editData, setEditData] = useState({ name: '', type: '', price: '', url: '' });
 

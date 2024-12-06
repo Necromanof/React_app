@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 
-function FormComponent({ onAddComponent }) {
+function Add({ onAddComponent }) {
   const [formData, setFormData] = useState({ name: '', type: '', price: '', url: '' });
 
   const handleChange = (e) => {
@@ -12,7 +13,10 @@ function FormComponent({ onAddComponent }) {
     e.preventDefault();
     onAddComponent(formData);
     setFormData({ name: '', type: '', price: '', url: '' });
+    navigate('/List');
   };
+
+  console.log(`Data detect : name : ${formData.name} \n and type : ${formData.type} \n and price : ${formData.price} \n and url : ${formData.url}`)
 
   return (
 <>
@@ -40,4 +44,4 @@ function FormComponent({ onAddComponent }) {
   );
 }
 
-export default FormComponent;
+export default Add;
