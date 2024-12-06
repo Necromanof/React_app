@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 function Add({ onAddComponent }) {
   const [formData, setFormData] = useState({ name: '', type: '', price: '', url: '' });
@@ -40,6 +40,8 @@ function Add({ onAddComponent }) {
         </div>
         <button type="submit">Add</button>
     </form>
+
+    <Link to="/List"><button>List of components</button></Link>
 </>
   );
 }

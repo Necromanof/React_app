@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 function ComponentList({ components = [], onUpdateComponent, onDeleteComponent, onAddComponent }) {
   const [editIndex, setEditIndex] = useState(null);
   const [editData, setEditData] = useState({ name: '', type: '', price: '', url: '' });
+  const [seatchTerm, setSearchTerm] = useState('')
 
   const handleEdit = (index) => {
     setEditIndex(index);
@@ -14,9 +15,21 @@ function ComponentList({ components = [], onUpdateComponent, onDeleteComponent, 
     setEditIndex(null);
   };
 
+  const componentsFilter = components.filter((component) => component.name.toLowerCase().includes(seatchTerm.toLowerCase()) || component.type.toLowerCase().includes(seatchTerm.toLowerCase()));
+
+  //Debug log (faut pas faire attention)
   console.log('components:', components);
 
   return (
+    <>
+
+    {/*Search Bar*/}
+
+    <div className='searchBar'>
+      <input type="text" placeholder='Search your component...' value={seatchTerm} onChange={(v) => setSearchTerm(v.target.value)} />
+    </div>
+
+    {/*Components List*/}
     <div>
       {components.map((component, index) => (
         <div key={index}>
@@ -65,6 +78,7 @@ function ComponentList({ components = [], onUpdateComponent, onDeleteComponent, 
         </div>
       ))}
     </div>
+    </>
   );
 }
 
