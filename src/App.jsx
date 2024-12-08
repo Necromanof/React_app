@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css'
 import NavBar from "./components/nav.jsx"
@@ -8,12 +8,18 @@ import Begin from "./components/begin.jsx"
 import Add from './components/add.jsx'
 import List from './components/componentList.jsx'
 import error from "./components/error404.jsx"
-import NotFound from './components/error404.jsx';
 
 function App() {
 
   //Stock Data
-  const [components, setComponents] = useState([]);
+  const [components, setComponents] = useState(() => {
+  const componentsStorage = localStorage.getItem('components');
+  return componentsStorage ? JSON.parse(componentsStorage) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('components', JSON.stringify(components));
+  }, [components]);
 
   // Add a component
   const addComponent = (component) => {
@@ -44,7 +50,7 @@ function App() {
             <Route path='/About' element={<About />}/>
             <Route path='/Add' element={<Add onAddComponent={(component) => addComponent(component)} />}></Route>
             <Route path='/List' element={<List components={components} onUpdateComponent={updateComponent} onDeleteComponent={deleteComponent}/>}></Route>
-            <Route path='*' element={<NotFound />} />
+            <Route path='*' element={<error />} />
           </Routes>
     </div>
       
