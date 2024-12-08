@@ -15,7 +15,7 @@ function ComponentList({ components = [], onUpdateComponent, onDeleteComponent, 
     setEditIndex(null);
   };
 
-  const componentsFilter = components.filter((component) => component.name.toLowerCase().includes(seatchTerm.toLowerCase()) || component.type.toLowerCase().includes(seatchTerm.toLowerCase()));
+  const componentsFilter = components.filter((component) => component.name.toString().toLowerCase().includes(seatchTerm.toLowerCase()) || component.type.toString().toLowerCase().includes(seatchTerm.toLowerCase()));
 
   //Debug log (faut pas faire attention)
   console.log('components:', components);
