@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 
-function ComponentList({ components = [], onUpdateComponent, onDeleteComponent, onAddComponent }) {
+function ComponentList({ components = [], onUpdateComponent, onDeleteComponent }) {
   const [editIndex, setEditIndex] = useState(null);
   const [editData, setEditData] = useState({ name: '', type: '', price: '', url: '' });
-  const [seatchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedComponents, setSelectedComponents] = useState([]); // Liste des composants sélectionnés
+  const sortedIndices = [...selectedComponents].sort((a,b) => b - a);
 
   const handleEdit = (index) => {
     setEditIndex(index);
@@ -15,69 +17,114 @@ function ComponentList({ components = [], onUpdateComponent, onDeleteComponent, 
     setEditIndex(null);
   };
 
-  const componentsFilter = components.filter((component) => component.name.toLowerCase().includes(seatchTerm.toLowerCase()) || component.type.toLowerCase().includes(seatchTerm.toLowerCase()));
+  // Gérer la sélection ou déselection d'un composant
+  const toggleSelectComponent = (index) => {
+    setSelectedComponents((prevSelected) =>
+      prevSelected.includes(index)
+        ? prevSelected.filter((i) => i !== index) // Retirer si déjà sélectionné
+        : [...prevSelected, index] 
+    );
+  };
 
-  //Debug log (faut pas faire attention)
-  console.log('components:', components);
+  // Supprimer les composants sélectionnés
+  const handleDeleteSelected = () => {
+    sortedIndices.forEach((componentIndex) => onDeleteComponent(componentIndex));
+    setSelectedComponents([]); // Réinitialiser la sélection
+  };
+
+  // Filtrer les composants avec la barre de recherche
+  const componentsFilter = components.filter(
+    (component) =>
+      component.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      component.type.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
+      {/* Search Bar */}
+      <div className="searchBar">
+        <input
+          type="text"
+          placeholder="Search your component..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
 
-    {/*Search Bar*/}
+      {/* Bouton de suppression multiple */}
+      {selectedComponents.length > 0 && (
+        <button
+          onClick={handleDeleteSelected}
+          style={{ backgroundColor: 'red', color: 'white', margin: '10px', padding: '10px' }}
+        >
+          Supprimer les composants sélectionnés ({selectedComponents.length})
+        </button>
+      )}
 
-    <div className='searchBar'>
-      <input type="text" placeholder='Search your component...' value={seatchTerm} onChange={(v) => setSearchTerm(v.target.value)} />
-    </div>
+      {/* Components List */}
+      <div>
+        {componentsFilter.map((component, index) => (
+          <div key={index}>
+            <input
+              type="checkbox"
+              checked={selectedComponents.includes(index)} // Vérifie si l'index est sélectionné
+              onChange={() => toggleSelectComponent(index)} // Ajoute ou retire de la sélection
+            />
 
-    {/*Components List*/}
-    <div>
-      {componentsFilter.map((component, index) => (
-        <div key={index}>
-          {editIndex === index ? (
-            <div>
-              <input 
-                type="text" 
-                name="name" 
-                value={editData.name} 
-                onChange={(e) => setEditData({ ...editData, name: e.target.value })} 
-              />
-              <input 
-                type="text" 
-                name="type" 
-                value={editData.type} 
-                onChange={(e) => setEditData({ ...editData, type: e.target.value })} 
-              />
-              <input 
-                type="number" 
-                name="price" 
-                value={editData.price} 
-                onChange={(e) => setEditData({ ...editData, price: e.target.value })} 
-              />
-              <input 
-                type="url" 
-                name="url" 
-                value={editData.url} 
-                onChange={(e) => setEditData({ ...editData, url: e.target.value })} 
-              />
-              <button onClick={handleUpdate}>Sauvegarder</button>
-            </div>
-          ) : (
-            <div>
-              <p>{component.name} - {component.type} - {component.price}€</p>
-              <button onClick={() => handleEdit(index)}>Modifier</button>
-              <button onClick={() => onDeleteComponent(index)}>Supprimer</button>
-              {component.url && (
-                <a href={component.url} target="_blank" rel="noopener noreferrer">
-                  <button style={{ backgroundColor: 'green', color: 'white', borderRadius: '5px', padding: '5px 10px' }}>
-                    Acheter
-                  </button>
-                </a>
-              )}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
+            {editIndex === index ? (
+              <div>
+                <input
+                  type="text"
+                  name="name"
+                  value={editData.name}
+                  onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                />
+                <input
+                  type="text"
+                  name="type"
+                  value={editData.type}
+                  onChange={(e) => setEditData({ ...editData, type: e.target.value })}
+                />
+                <input
+                  type="number"
+                  name="price"
+                  value={editData.price}
+                  onChange={(e) => setEditData({ ...editData, price: e.target.value })}
+                />
+                <input
+                  type="url"
+                  name="url"
+                  value={editData.url}
+                  onChange={(e) => setEditData({ ...editData, url: e.target.value })}
+                />
+                <button onClick={handleUpdate}>Sauvegarder</button>
+              </div>
+            ) : (
+              <div>
+                <p>
+                  {component.name} - {component.type} - {component.price}€
+                </p>
+                <button onClick={() => handleEdit(index)}>Modifier</button>
+                <button onClick={() => onDeleteComponent(index)}>Supprimer</button>
+                {component.url && (
+                  <a href={component.url} target="_blank" rel="noopener noreferrer">
+                    <button
+                      style={{
+                        backgroundColor: 'green',
+                        color: 'white',
+                        borderRadius: '5px',
+                        padding: '5px 10px',
+                      }}
+                    >
+                      Acheter
+                    </button>
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </>
   );
 }
