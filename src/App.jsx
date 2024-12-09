@@ -7,7 +7,7 @@ import About from "./components/about.jsx"
 import Begin from "./components/begin.jsx"
 import Add from './components/add.jsx'
 import List from './components/componentList.jsx'
-import error from "./components/error404.jsx"
+import Error from './components/error404.jsx'
 
 function App() {
 
@@ -50,7 +50,7 @@ function App() {
             <Route path='/About' element={<About />}/>
             <Route path='/Add' element={<Add onAddComponent={(component) => addComponent(component)} />}></Route>
             <Route path='/List' element={<List components={components} onUpdateComponent={updateComponent} onDeleteComponent={deleteComponent}/>}></Route>
-            <Route path='*' element={<error />} />
+            <Route path='*' element={<Error />} />
           </Routes>
     </div>
       

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 function ComponentList({ components = [], onUpdateComponent, onDeleteComponent }) {
   const [editIndex, setEditIndex] = useState(null);
-  const [editData, setEditData] = useState({ name: '', type: '', price: '', url: '' });
+  const [editData, setEditData] = useState({ name: '', type: '', price: '', url: '', image:'' });
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedComponents, setSelectedComponents] = useState([]); // Liste des composants sélectionnés
   const sortedIndices = [...selectedComponents].sort((a,b) => b - a);
@@ -73,6 +73,10 @@ function ComponentList({ components = [], onUpdateComponent, onDeleteComponent }
 
             {editIndex === index ? (
               <div>
+                <input 
+                  type="image" 
+                  src={editData.image} 
+                  onChange={(e) => setEditData({...editData, image: e.target.value})} />
                 <input
                   type="text"
                   name="name"

@@ -4,6 +4,7 @@
 
 body {
   margin: 0;
+  background-color: rgb(150, 150, 150);
 }
 
 
@@ -38,6 +39,7 @@ body {
   margin: 0;
   list-style: none;
 }
+
 
 .nav li:hover {
   background-color: #777;
@@ -79,3 +81,20 @@ form button {
   margin-top: 10px;
 }
 
+.gif{
+  width: 20%;
+  margin-top: 50px;
+}
+
+.selectionLink{
+  color: white;
+  text-decoration: none;
+  padding: 5px;
+  background-color: black;
+  border-radius: 10px;
+}
+
+
+.selectionLink:hover{
+  background-color: #777;
+}
