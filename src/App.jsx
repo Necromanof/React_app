@@ -17,6 +17,7 @@ function App() {
   return componentsStorage ? JSON.parse(componentsStorage) : [];
   });
 
+  //LocalStorage
   useEffect(() => {
     localStorage.setItem('components', JSON.stringify(components));
   }, [components]);
