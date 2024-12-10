@@ -41,10 +41,10 @@ function Add({ onAddComponent }) {
             <label htmlFor="url">URL</label>
             <input type="url" name='url' value={formData.url} onChange={handleChange}/>
         </div>
-        <div>
+        {/* <div>
             <label htmlFor="image">Image (Link)</label>
             <input type="url" name="image_url" value={formData.image} onChange={handleChange}/>
-        </div>
+        </div> */}
         <button type="submit">Add</button>
     </form>
 
